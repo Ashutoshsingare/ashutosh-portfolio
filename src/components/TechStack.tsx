@@ -1,200 +1,201 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef } from "react";
 import { LayoutContainer } from "./LayoutContainer";
+import { Monitor, Server, Cpu, Terminal } from "lucide-react";
 
-const stackCategories = [
+interface StackCategory {
+  title: string;
+  desc: string;
+  skills: string[];
+  icon: React.ReactNode;
+}
+
+const stackCategories: StackCategory[] = [
   {
     title: "Frontend Architecture",
-    desc: "Cinematic user interfaces, fluid WebGL graphics & reactive state orchestration",
+    desc: "Cinematic user interfaces, fluid WebGL graphics & reactive state orchestration.",
     skills: [
       "React",
       "Next.js 14",
       "TypeScript",
       "Tailwind CSS",
-      "Framer Motion",
       "HTML5 Canvas",
-      "WebGL",
-      "Three.js",
       "GSAP",
-      "Redux Toolkit",
+      "Framer Motion",
       "Vite",
-      "Lenis Scroll"
+      "Shadcn UI",
+      "Lenis Scroll",
+      "Web Audio API",
+      
     ],
-    accentText: "text-emerald-400",
-    accentBorder: "border-emerald-500/30",
-    pillDot: "bg-emerald-400",
-    pillHover: "hover:border-emerald-500/50 hover:bg-emerald-500/15 hover:text-emerald-200 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]",
-    cardGlow: "from-emerald-500/15 via-transparent to-transparent",
-    topLine: "from-emerald-500 via-emerald-300 to-transparent",
+    icon: <Monitor className="w-5 h-5 text-accent" />,
   },
   {
     title: "Backend & Systems",
-    desc: "High-throughput server runtimes, distributed databases & secure API endpoints",
+    desc: "High-throughput server runtimes, distributed databases & secure API endpoints.",
     skills: [
       "Node.js",
       "Express.js",
-      "MongoDB",
-      "REST APIs",
-      "GraphQL",
+      "NestJS",
       "PostgreSQL",
-      "Redis",
-      "Prisma ORM",
+      "MongoDB",
+      "GraphQL",
+      "REST APIs",
+
       "JWT Auth",
-      "Mongoose",
-      "WebSockets",
-      "Microservices"
+      "Supabase",
     ],
-    accentText: "text-cyan-400",
-    accentBorder: "border-cyan-500/30",
-    pillDot: "bg-cyan-400",
-    pillHover: "hover:border-cyan-500/50 hover:bg-cyan-500/15 hover:text-cyan-200 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]",
-    cardGlow: "from-cyan-500/15 via-transparent to-transparent",
-    topLine: "from-cyan-500 via-cyan-300 to-transparent",
+    icon: <Server className="w-5 h-5 text-accent" />,
   },
   {
     title: "AI Engineering & ML",
-    desc: "Applied artificial intelligence, LLM orchestrations & predictive algorithms",
+    desc: "Applied artificial intelligence, LLM orchestrations & predictive algorithms.",
     skills: [
       "Google Gemini API",
+      "OpenAI API",
+      "Claude API",
       "Python",
+      "PyTorch",
       "TensorFlow",
+      "LangChain",
+      "LlamaIndex",
+      "Hugging Face",
+      "Vector DBs",
+      "Pinecone",
+      "RAG Pipelines",
       "Scikit-learn",
       "Pandas",
-      "PyTorch",
       "NumPy",
-      "LangChain",
-      "Hugging Face",
-      "Jupyter",
-      "OpenAI API",
-      "Vector DBs"
     ],
-    accentText: "text-purple-400",
-    accentBorder: "border-purple-500/30",
-    pillDot: "bg-purple-400",
-    pillHover: "hover:border-purple-500/50 hover:bg-purple-500/15 hover:text-purple-200 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)]",
-    cardGlow: "from-purple-500/15 via-transparent to-transparent",
-    topLine: "from-purple-500 via-purple-300 to-transparent",
+    icon: <Cpu className="w-5 h-5 text-accent" />,
   },
   {
-    title: "DevOps & Tooling",
-    desc: "Version control workflows, cloud deployment infrastructure & UI design systems",
+    title: "DevOps & Cloud Infrastructure",
+    desc: "Version control workflows, cloud deployment infrastructure & automated CI/CD pipelines.",
     skills: [
-      "Git",
-      "GitHub",
-      "VS Code",
-      "Vercel",
-      "Figma",
       "Docker",
-      "Turbopack",
-      "Postman",
-      "Webpack",
-      "ESLint",
+      "Kubernetes",
       "AWS",
-      "CI/CD Pipelines"
+      "Vercel",
+      "Git & GitHub",
+      "CI/CD Pipelines",
+      "Turbopack",
+      "Webpack",
+      "Terraform",
+      "Cloudflare",
+      "Postman",
+      "ESLint",
+      "Figma",
+      "Jest & Vitest",
     ],
-    accentText: "text-amber-400",
-    accentBorder: "border-amber-500/30",
-    pillDot: "bg-amber-400",
-    pillHover: "hover:border-amber-500/50 hover:bg-amber-500/15 hover:text-amber-200 hover:shadow-[0_0_20px_rgba(245,158,11,0.3)]",
-    cardGlow: "from-amber-500/15 via-transparent to-transparent",
-    topLine: "from-amber-500 via-amber-300 to-transparent",
+    icon: <Terminal className="w-5 h-5 text-accent" />,
   },
 ];
 
-
 export const TechStack: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  /*
+    REVEAL ANIMATION (Vanilla JS + IntersectionObserver):
+    - Observes each reveal wrapper marked with data-row.
+    - On enter (threshold 0.15): fade in + settle upward (translateY 24px -> 0), staggered per card.
+  */
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            el.style.opacity = "1";
+            el.style.transform = "translateY(0px)";
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    const rows = containerRef.current?.querySelectorAll("[data-row]");
+    rows?.forEach((row) => observer.observe(row));
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="skills" className="relative z-20 bg-[#121212] py-48 sm:py-64 border-t border-white/20 w-full overflow-hidden">
+    <section id="skills" className="relative z-20 bg-[#0d0f12] py-28 md:py-[150px] border-t border-white/20 w-full overflow-hidden">
       {/* Deep Ambient Background Illumination */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-gradient-to-tr from-purple-500/[0.035] via-cyan-500/[0.035] to-emerald-500/[0.035] blur-[190px] pointer-events-none rounded-full" />
-            <div className="h-6"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-accent/[0.05] blur-[190px] pointer-events-none rounded-full" />
 
       <LayoutContainer>
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-32 gap-8 text-left w-full">
-          
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-8 text-left w-full">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-6">
-              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-purple-400">
-                
+              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent">
                 // Technological Arsenal
               </span>
             </div>
             <h2 className="text-4xl sm:text-6xl md:text-7xl font-extralight tracking-tight text-white leading-none">
-              Tech Stack.
+              Skills.
             </h2>
-            <div className="h-6"></div>
           </div>
           <p className="text-base sm:text-lg text-white/50 font-light max-w-md leading-relaxed">
-            A comprehensive matrix of production-grade frameworks, languages.
-                        <div className="h-6"></div>
-
+            A comprehensive matrix of production-grade frameworks, languages, and distributed systems architecture.
           </p>
         </div>
 
-        {/* Premium Bento Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {stackCategories.map((category, idx) => (
-            <motion.div
-              key={category.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -8 }}
-              className="group relative rounded-3xl p-8 sm:p-12 bg-white/[0.02] border border-white/[0.08] hover:border-white/[0.25] hover:bg-white/[0.04] backdrop-blur-2xl transition-all duration-500 overflow-hidden flex flex-col justify-between shadow-[0_15px_35px_rgba(0,0,0,0.5)]"
-            >
-              {/* Glowing Top Accent Border Line */}
-              <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${category.topLine} opacity-40 group-hover:opacity-100 transition-opacity duration-500`} />
+        {/* Editorial 2×2 grid */}
+        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+          {stackCategories.map((category, idx) => {
+            return (
+              <div
+                key={category.title}
+                data-row
+                style={{
+                  opacity: 0,
+                  transform: "translateY(24px)",
+                  transition:
+                    "opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                  transitionDelay: `${idx * 0.1}s`,
+                }}
+              >
+                <article className="surface-card group h-full min-h-[380px] flex flex-col rounded-[18px] p-8 border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-white/[0.14] hover:bg-white/[0.035] will-change-transform">
+                  {/* Top row: category icon + index */}
+                  <div className="flex items-center justify-between">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 bg-accent/10 border border-accent/25 shadow-inner">
+                      {category.icon}
+                    </div>
+                    <span className="font-mono text-xs text-white/25 tracking-widest">
+                      0{idx + 1}
+                    </span>
+                  </div>
 
-              {/* Ambient Radial Background Glow */}
-              <div className={`absolute -top-32 -right-32 w-96 h-96 bg-gradient-to-br ${category.cardGlow} blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
-
-              <div className="relative z-10 mb-8">
-                {/* Header Badge & Title */}
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-2xl sm:text-3xl font-light tracking-tight text-white group-hover:text-white/95 transition-colors">
+                  {/* Category name */}
+                  <h3 className="mt-6 text-xl sm:text-2xl font-semibold tracking-tight text-white leading-snug">
                     {category.title}
                   </h3>
-                  <span className={`px-3 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest border bg-white/[0.02] ${category.accentBorder} ${category.accentText}`}>
-                    // 0{idx + 1}
-                  </span>
-                  
-                </div>
 
-                <p className="text-sm sm:text-base font-light text-white/50 leading-relaxed">
-                  {category.desc}
-                </p>
-                            <div className="h-6"></div>
+                  {/* Muted supporting line */}
+                  <p className="mt-3 text-sm sm:text-[15px] font-light text-white/45 leading-relaxed max-w-sm">
+                    {category.desc}
+                  </p>
 
+                  {/* All technology chips displayed without slicing, with compact padding to maintain original card size */}
+                  <div className="mt-6 flex flex-wrap gap-2 sm:gap-2.5">
+                    {category.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="inline-flex items-center justify-center rounded-lg px-3.5 py-2 text-xs leading-none font-mono font-medium tracking-wide bg-accent/[0.08] text-accent-hover border border-accent/20 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:bg-accent/[0.14] hover:border-accent/40 hover:text-white cursor-default select-none"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </article>
               </div>
-
-              {/* Dense Matrix of Floating Technology Pills */}
-              <div className="relative z-10 pt-8 border-t border-white/[0.06]">
-                <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                  {category.skills.map((skill) => (
-                    <motion.div
-                      key={skill}
-                      whileHover={{ scale: 1.06, y: -3 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                      className={`inline-flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-mono tracking-wider bg-white/[0.03] border border-white/[0.08] text-white/80 transition-all duration-300 cursor-default select-none shadow-sm ${category.pillHover}`}
-                    >
-                      <span className={`h-1.5 w-1.5 rounded-full ${category.pillDot} shadow-[0_0_8px_currentColor] opacity-75 group-hover:opacity-100 transition-opacity`} />
-                      <span>{skill}</span>
-                    </motion.div>
-                  ))}
-                  
-                </div>
-              </div>
-            </motion.div>
-          ))}            <div className="h-6"></div>
-
-
+            );
+          })}
         </div>
-                    <div className="h-6"></div>
-
       </LayoutContainer>
     </section>
   );

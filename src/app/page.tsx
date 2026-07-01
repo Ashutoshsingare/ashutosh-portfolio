@@ -1,3 +1,4 @@
+import { AppProvider } from "@/components/AppProvider";
 import { Navbar } from "@/components/Navbar";
 import { ScrollyCanvas } from "@/components/ScrollyCanvas";
 import { Education } from "@/components/Education";
@@ -7,10 +8,12 @@ import { Contact } from "@/components/Contact";
 
 export default function Home() {
   return (
-    <main className="relative bg-[#121212] min-h-screen selection:bg-emerald-500/30 selection:text-white">
-      {/* 1. Hero & 2. Engineering Philosophy (LOCKED inside ScrollyCanvas) */}
-      <Navbar />
-      <ScrollyCanvas />
+    <main className="relative bg-[#0d0f12] min-h-screen selection:bg-accent/25 selection:text-white">
+      <AppProvider>
+        {/* 1. Hero & 2. Engineering Philosophy */}
+        <Navbar />
+        <ScrollyCanvas />
+      </AppProvider>
 
       {/* 3. Education Section (Vertical Laser Timeline) */}
       <Education />
@@ -19,7 +22,7 @@ export default function Home() {
       <TechStack />
 
       {/* 5. Projects Section (Existing) */}
-      <div id="works">
+      <div id="works" className="scroll-mt-28 sm:scroll-mt-32">
         <Projects />
       </div>
 

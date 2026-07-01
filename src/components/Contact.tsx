@@ -39,9 +39,9 @@ export const Contact: React.FC = () => {
   ];
 
   return (
-    <footer id="contact" className="relative z-20 bg-[#121212] pt-48 sm:pt-64 pb-16 border-t border-white/20 overflow-hidden w-full">
+    <footer id="contact" className="relative z-20 bg-[#0d0f12] pt-48 sm:pt-64 pb-16 border-t border-white/20 overflow-hidden w-full">
       {/* Background Radial Glow */}
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-emerald-500/[0.05] blur-[150px] pointer-events-none rounded-full" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-accent/[0.05] blur-[150px] pointer-events-none rounded-full" />
 
       <LayoutContainer>
         {/* Top Status */}            <div className="h-6"></div>
@@ -49,14 +49,14 @@ export const Contact: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-20 pb-12 border-b border-white/[0.06]">
           <div className="flex items-center gap-3">
             <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-success"></span>
             </span>
             <span className="text-xs font-mono uppercase tracking-widest text-white/80">Open for Software Engineering Internships & Full-Time Roles</span>
           </div>
 
           <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-white/40">
-            <Globe className="w-4 h-4 text-emerald-400" />
+            <Globe className="w-4 h-4 text-accent" />
             <span>Bhopal, IN // UTC+5:30</span>
           </div>
         </div>
@@ -70,7 +70,7 @@ export const Contact: React.FC = () => {
           </span>
           <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-extralight tracking-tight text-white leading-[0.95] max-w-6xl mb-12 mx-auto">
             Let&apos;s build the <br />
-            <span className="font-normal italic bg-gradient-to-r from-emerald-400 via-white to-white/40 bg-clip-text text-transparent">
+            <span className="font-normal italic bg-gradient-to-r from-accent via-white to-white/40 bg-clip-text text-transparent">
               unforgettable.<div className="h-6"></div>
             </span>
           </h2>
@@ -86,7 +86,7 @@ export const Contact: React.FC = () => {
               
               className="w-full sm:w-auto px-8 py-5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] text-white font-mono text-sm tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-3 group"
             ><div className="h-6"></div>
-              <Mail className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+              <Mail className="w-4 h-4 text-accent group-hover:scale-110 transition-transform" />
               <span>{emailAddress}</span>
             </a>
 
@@ -106,15 +106,15 @@ export const Contact: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="w-full max-w-2xl mx-auto p-8 sm:p-12 rounded-3xl bg-white/[0.015] border border-white/[0.08] backdrop-blur-2xl text-left shadow-2xl relative overflow-hidden mb-16"
+            className="surface-card w-full max-w-2xl mx-auto p-8 sm:p-12 rounded-3xl bg-white/[0.015] border border-white/[0.08] backdrop-blur-2xl text-left relative overflow-hidden mb-16"
           >
             
             <div className="h-6"></div>
             {/* Top Glowing Edge Line */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 via-cyan-400 to-transparent opacity-60" />
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-accent via-sage to-transparent opacity-60" />
 
             <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/[0.06]">
-              <div className="flex items-center gap-2.5 text-xs font-mono uppercase tracking-widest text-emerald-400">
+              <div className="flex items-center gap-2.5 text-xs font-mono uppercase tracking-widest text-accent">
                 <Send className="w-3.5 h-3.5 animate-pulse" />
                 <span>// Direct Messaging Portal</span>
               </div>
@@ -131,7 +131,7 @@ export const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Alan Turing"
-                    className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] focus:border-emerald-400 focus:bg-white/[0.06] text-white text-sm font-light outline-none transition-all placeholder:text-white/20"
+                    className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] focus:border-accent focus:bg-white/[0.06] text-white text-sm font-light outline-none transition-all placeholder:text-white/20"
                   />
                 </div>
 
@@ -143,7 +143,7 @@ export const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="e.g. alan@turing.ac.uk"
-                    className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] focus:border-emerald-400 focus:bg-white/[0.06] text-white text-sm font-light outline-none transition-all placeholder:text-white/20"
+                    className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] focus:border-accent focus:bg-white/[0.06] text-white text-sm font-light outline-none transition-all placeholder:text-white/20"
                   />
                 </div>
               </div>
@@ -156,7 +156,7 @@ export const Contact: React.FC = () => {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Describe your vision, timeline, or engineering requirements..."
-                  className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] focus:border-emerald-400 focus:bg-white/[0.06] text-white text-sm font-light outline-none transition-all placeholder:text-white/20 resize-none leading-relaxed"
+                  className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] focus:border-accent focus:bg-white/[0.06] text-white text-sm font-light outline-none transition-all placeholder:text-white/20 resize-none leading-relaxed"
                 />
                 
               </div>
@@ -166,10 +166,10 @@ export const Contact: React.FC = () => {
                 disabled={sending || sent}
                 className={`w-full py-5 mt-2 rounded-full font-mono text-xs sm:text-sm tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-3 shadow-lg ${
                   sent
-                    ? "bg-emerald-500 text-black font-semibold shadow-[0_0_30px_rgba(16,185,129,0.8)] cursor-default"
+                    ? "bg-success text-black font-semibold shadow-[0_6px_24px_-6px_rgba(111,154,141,0.5)] cursor-default"
                     : sending
                     ? "bg-white/10 text-white/50 border border-white/20 cursor-wait"
-                    : "bg-white text-black hover:bg-emerald-400 hover:scale-[1.01] shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(52,211,153,0.8)]"
+                    : "bg-white text-black hover:bg-accent hover:text-white hover:scale-[1.01] shadow-[0_8px_30px_-8px_rgba(0,0,0,0.5)] hover:shadow-[0_10px_36px_-8px_rgba(124,147,179,0.5)]"
                 }`}
               >
                 {sent ? (
@@ -203,7 +203,7 @@ export const Contact: React.FC = () => {
                 href={soc.href}
                 target="_blank"
                 rel="noreferrer"
-                className="group flex items-center gap-2.5 px-6 sm:px-8 py-3.5 rounded-full bg-transparent hover:bg-white text-white/75 hover:text-black font-mono text-xs sm:text-sm tracking-widest uppercase transition-all duration-300 shadow-sm hover:shadow-[0_0_25px_rgba(255,255,255,0.5)] font-semibold scale-100 active:scale-95"
+                className="group flex items-center gap-2.5 px-6 sm:px-8 py-3.5 rounded-full bg-transparent hover:bg-white text-white/75 hover:text-black font-mono text-xs sm:text-sm tracking-widest uppercase transition-all duration-300 shadow-sm hover:shadow-[0_6px_20px_-6px_rgba(0,0,0,0.5)] font-semibold scale-100 active:scale-95"
               >
                 <span>{soc.name}</span>
                 <ArrowUpRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />

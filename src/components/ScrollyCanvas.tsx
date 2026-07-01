@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { useScroll, useTransform, useMotionValueEvent, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent, useSpring } from "framer-motion";
 import { Loader } from "./Loader";
 import { Overlay } from "./Overlay";
+import { useLoading } from "@/context/LoadingContext";
 
 const TOTAL_FRAMES = 120;
 
@@ -13,6 +14,7 @@ export const ScrollyCanvas: React.FC = () => {
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef<number>(0);
 
+  const { setProgress, startDocking, isLoading: contextIsLoading } = useLoading();
   const [isLoading, setIsLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
 
@@ -31,10 +33,27 @@ export const ScrollyCanvas: React.FC = () => {
 
   const frameIndex = useTransform(smoothProgress, [0, 1], [0, TOTAL_FRAMES - 1]);
 
-  // Preload all 120 WebP images into memory
+  // Preload all 120 WebP images into memory with guaranteed cinematic timing
   useEffect(() => {
     let loadedCount = 0;
+    let finished = false;
     const loadedImages: HTMLImageElement[] = [];
+    const startTime = Date.now();
+
+    const finishLoading = () => {
+      if (finished) return;
+      finished = true;
+      imagesRef.current = loadedImages;
+      startDocking();
+      setIsLoading(false);
+      setLoadProgress(100);
+      setProgress(100);
+    };
+
+    // Guaranteed fallback: never lock page or stay on loader longer than 3 seconds
+    const fallbackTimer = setTimeout(() => {
+      finishLoading();
+    }, 3000);
 
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
@@ -43,20 +62,31 @@ export const ScrollyCanvas: React.FC = () => {
 
       const onImageLoad = () => {
         loadedCount++;
-        setLoadProgress(Math.round((loadedCount / TOTAL_FRAMES) * 100));
+        const pct = Math.round((loadedCount / TOTAL_FRAMES) * 100);
+        if (!finished) {
+          setLoadProgress(pct);
+          setProgress(pct);
+        }
+
         if (loadedCount === TOTAL_FRAMES) {
           imagesRef.current = loadedImages;
-          // Smooth transition out of preloader
+          const elapsed = Date.now() - startTime;
+          const remainingDelay = Math.max(0, 2600 - elapsed);
+
           setTimeout(() => {
-            setIsLoading(false);
-          }, 600);
+            finishLoading();
+          }, remainingDelay);
         }
       };
 
       img.onload = onImageLoad;
-      img.onerror = onImageLoad; // prevent hang if any frame fails
+      img.onerror = onImageLoad;
       loadedImages.push(img);
     }
+
+    imagesRef.current = loadedImages;
+
+    return () => clearTimeout(fallbackTimer);
   }, []);
 
   // Canvas rendering function implementing precise object-fit: cover mathematics
@@ -128,13 +158,23 @@ export const ScrollyCanvas: React.FC = () => {
     <>
       <Loader isLoading={isLoading} progress={loadProgress} />
 
-      <section ref={containerRef} className="relative h-[500vh] bg-[#121212] w-full">
+      <section ref={containerRef} className="relative h-[500vh] bg-[#0d0f12] w-full">
         {/* Sticky Viewport Container */}
-        <div className="sticky top-0 h-screen w-full overflow-hidden z-0 bg-[#121212]">
-          <canvas
-            ref={canvasRef}
-            className="block w-full h-full"
-          />
+        <div className="sticky top-0 h-screen w-full overflow-hidden z-0 bg-[#0d0f12] relative">
+          <motion.div
+            initial={{ scale: 1.15, filter: "blur(20px)", opacity: 0 }}
+            animate={
+              contextIsLoading
+                ? { scale: 1.15, filter: "blur(20px)", opacity: 0 }
+                : { scale: 1, filter: "blur(0px)", opacity: 1 }
+            }
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full h-full"
+          >
+            <canvas ref={canvasRef} className="block w-full h-full" />
+          </motion.div>
+          {/* Soft fade of the cinematic canvas into the sections below */}
+          <div className="hero-fade pointer-events-none absolute inset-x-0 bottom-0 h-1/3" />
         </div>
 
         {/* Parallax Typography Overlay */}

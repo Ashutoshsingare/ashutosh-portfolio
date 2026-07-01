@@ -1,13 +1,69 @@
 @import "tailwindcss";
 
+/*
+  ============================================================
+  DESIGN SYSTEM ② — "Slate & Dusty Blue"
+  Cool architectural slate + a single dusty-blue accent.
+  Editorial, matte, restrained. (Linear × Vercel)
+
+  Everything is driven from these tokens. To swap the entire
+  palette, replace the values in :root — nothing else changes.
+  ============================================================
+*/
+
 :root {
-  --background: #121212;
-  --foreground: #f3f4f6;
+  /* Surfaces (dark → light) */
+  --bg: #0d0f12;            /* Background            */
+  --bg-elevated: #12151a;   /* Elevated Background   */
+  --surface: #171b21;       /* Surface               */
+  --surface-2: #1e232b;     /* Secondary Surface     */
+  --card: #14181d;          /* Card Background       */
+  --border: #262c35;        /* Border                */
+  --divider: #1c2129;       /* Divider               */
+
+  /* Typography */
+  --text-primary: #eef1f5;      /* Primary Text     */
+  --text-secondary: #a7b0bc;    /* Secondary Text   */
+  --text-muted: #6e7783;        /* Muted Text       */
+  --text-placeholder: #4c545f;  /* Placeholder Text */
+
+  /* Accent — dusty blue */
+  --accent: #7c93b3;         /* Primary Accent   */
+  --accent-2: #9aa7a0;       /* Secondary Accent (stone sage) */
+  --accent-hover: #92a7c4;   /* Accent Hover     */
+  --accent-active: #647c9c;  /* Accent Active    */
+  --glow: #7c93b3;           /* Glow (used only at very low opacity) */
+
+  /* Status — desaturated, never neon */
+  --success: #6f9a8d;
+  --warning: #c2a15c;
+  --error: #b0726e;
+
+  /* Legacy aliases (keep older refs working) */
+  --background: var(--bg);
+  --foreground: var(--text-primary);
 }
 
+/*
+  Expose tokens to Tailwind v4 so utilities are generated:
+  text-accent, bg-accent/10, border-accent/30, from-accent,
+  text-sage, text-success, etc. Opacity modifiers work via color-mix.
+*/
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg);
+  --color-foreground: var(--text-primary);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-active: var(--accent-active);
+  --color-sage: var(--accent-2);
+
+  --color-ink: var(--text-primary);
+  --color-ink-muted: var(--text-muted);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
 }
 
 * {
@@ -17,36 +73,76 @@
 }
 
 html {
-  background-color: #121212;
-  color: #f3f4f6;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  /* Smooth anchor navigation + offset every fragment target below the fixed navbar.
+     Navbar occupies ~104px (top-6 inset + pill); 120px leaves breathing room. */
+  scroll-behavior: smooth;
+  scroll-padding-top: 120px;
 }
 
 body {
-  background-color: #121212;
-  color: #f3f4f6;
+  background-color: var(--bg);
+  color: var(--text-primary);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom Sleek Dark Scrollbar */
+/* Sleek scrollbar — accent-tinted, matte */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #121212;
+  background: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: color-mix(in oklab, var(--accent) 32%, transparent);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: color-mix(in oklab, var(--accent) 50%, transparent);
 }
 
 ::selection {
-  background: rgba(255, 255, 255, 0.2);
+  background: color-mix(in oklab, var(--accent) 28%, transparent);
   color: #ffffff;
+}
+
+/*
+  ============================================================
+  ELEVATION & GRADIENT SYSTEM — extremely subtle, matte.
+  Kept unlayered so these win over ad-hoc Tailwind shadows.
+  ============================================================
+*/
+:root {
+  --sh-card: 0 8px 24px -14px rgba(0, 0, 0, 0.6);
+  --sh-hover: 0 22px 50px -24px rgba(0, 0, 0, 0.7);
+}
+
+/* Premium matte card: faint top-lit sheen + a single accent corner wash */
+.surface-card {
+  background-image:
+    radial-gradient(
+      120% 85% at 100% 0%,
+      color-mix(in oklab, var(--accent) 6%, transparent),
+      transparent 55%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, #ffffff 3.5%, transparent),
+      color-mix(in oklab, #ffffff 1%, transparent)
+    );
+  box-shadow: var(--sh-card);
+}
+
+.surface-card:hover {
+  box-shadow: var(--sh-hover);
+}
+
+/* Hero: fade the cinematic canvas softly into the page below (Apple-style) */
+.hero-fade {
+  background: linear-gradient(to bottom, transparent 45%, var(--bg) 97%);
 }

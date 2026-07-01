@@ -13,7 +13,7 @@ const educationEvents = [
     detail: "CBSE Board",
     metric: "79%",
     metricLabel: "Aggregate",
-    accentColor: "border-emerald-500/30 text-emerald-400 bg-emerald-500/10",
+    accentColor: "border-accent/30 text-accent bg-accent/10",
   },
   {
     year: "2023",
@@ -23,7 +23,7 @@ const educationEvents = [
     detail: "CBSE Board",
     metric: "72.6%",
     metricLabel: "Aggregate",
-    accentColor: "border-cyan-500/30 text-cyan-400 bg-cyan-500/10",
+    accentColor: "border-accent/30 text-accent bg-accent/10",
   },
   {
     year: "2023 — 2027",
@@ -33,15 +33,15 @@ const educationEvents = [
     detail: "Specialization in Data Science",
     metric: "7.44",
     metricLabel: "CGPA (Till 5th Sem)",
-    accentColor: "border-purple-500/30 text-purple-400 bg-purple-500/10",
+    accentColor: "border-accent/30 text-accent bg-accent/10",
   },
 ];
 
 export const Education: React.FC = () => {
   return (
-    <section id="education" className="relative z-20 bg-[#121212] py-48 sm:py-64 border-t border-white/[0.05] w-full overflow-hidden">
+    <section id="education" className="relative z-20 bg-[#0d0f12] py-48 sm:py-64 border-t border-white/[0.05] w-full overflow-hidden">
       {/* Ambient Background Glow */}
-      <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-emerald-500/[0.03] blur-[180px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-accent/[0.04] blur-[180px] pointer-events-none rounded-full" />
 
       <LayoutContainer>
         {/* Section Header */}
@@ -49,7 +49,7 @@ export const Education: React.FC = () => {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-6">
               
-              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-emerald-400">
+              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent">
                 // Academic Trajectory
               </span>
             </div>
@@ -74,7 +74,7 @@ export const Education: React.FC = () => {
               whileInView={{ height: "100%" }}
               viewport={{ once: true }}
               transition={{ duration: 2, ease: "easeInOut" }}
-              className="w-full bg-gradient-to-b from-emerald-400 via-cyan-400 to-purple-500 shadow-[0_0_15px_rgba(52,211,153,0.8)]"
+              className="w-full bg-gradient-to-b from-accent/80 via-accent to-accent/40 shadow-[0_0_12px_rgba(124,147,179,0.35)]"
             />
           </div>
 
@@ -89,13 +89,13 @@ export const Education: React.FC = () => {
                 className="relative group pl-6 sm:pl-10"
               >
                 {/* Glowing Node Circle */}
-                <div className="absolute -left-[31px] sm:-left-[47px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#121212] border-2 border-white/40 group-hover:border-emerald-400 group-hover:bg-emerald-400 group-hover:scale-125 transition-all duration-300 shadow-[0_0_12px_rgba(52,211,153,0)] group-hover:shadow-[0_0_20px_rgba(52,211,153,0.8)] z-10" />
+                <div className="absolute -left-[31px] sm:-left-[47px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#0d0f12] border-2 border-white/40 group-hover:border-accent group-hover:bg-accent group-hover:scale-125 transition-all duration-300 shadow-[0_0_12px_rgba(124,147,179,0)] group-hover:shadow-[0_0_16px_rgba(124,147,179,0.5)] z-10" />
 
                 {/* Glass Card Box */}
-                <div className="rounded-3xl p-8 sm:p-10 bg-white/[0.015] hover:bg-white/[0.035] border border-white/[0.06] hover:border-white/[0.2] backdrop-blur-xl transition-all duration-500 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+                <div className="surface-card rounded-3xl p-8 sm:p-10 bg-white/[0.015] hover:bg-white/[0.035] border border-white/[0.06] hover:border-white/[0.2] backdrop-blur-xl transition-all duration-500 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
                   <div>
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="font-mono text-xs sm:text-sm text-emerald-400 tracking-widest uppercase block">
+                      <span className="font-mono text-xs sm:text-sm text-accent tracking-widest uppercase block">
                         {event.year}
                       </span>
                       <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-widest border ${event.accentColor}`}>

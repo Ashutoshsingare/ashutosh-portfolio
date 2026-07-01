@@ -1,67 +1,196 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLoading } from "@/context/LoadingContext";
 
 interface LoaderProps {
-  progress: number;
-  isLoading: boolean;
+  progress?: number;
+  isLoading?: boolean;
 }
 
-export const Loader: React.FC<LoaderProps> = ({ progress, isLoading }) => {
-  return (
-    <AnimatePresence>
-      {isLoading && (
-        <motion.div
-          key="luxury-loader"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-between bg-[#121212] px-8 py-12 text-white overflow-hidden select-none"
-        >
-          {/* Top Brand Tag */}
-          <div className="w-full max-w-7xl flex justify-between items-center text-xs tracking-widest text-white/40 uppercase font-mono">
-            <span>Ashutosh Singare</span>
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Preloading 60FPS Canvas Assets
-            </span>
-          </div>
+export const Loader: React.FC<LoaderProps> = ({ progress: propProgress, isLoading: propIsLoading }) => {
+  const { isLoading: contextIsLoading, progress: contextProgress } = useLoading();
 
-          {/* Center Huge Percentage */}
-          <div className="flex flex-col items-center text-center my-auto">
+  const isLoading = propIsLoading !== undefined ? propIsLoading : contextIsLoading;
+  const progress = propProgress !== undefined ? propProgress : contextProgress;
+
+  // Animation phase timer: 0 = entrance, 1 = 360 spin & AI core power-up
+  const [phase, setPhase] = useState<0 | 1>(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPhase(1);
+    }, 900); // transition to spin after entrance settles
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <>
+      {/* 1. Full-screen Cinematic Backdrop (exits with gentle fade when loading completes) */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            key="cinematic-backdrop"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-[#0B0D11] overflow-hidden select-none pointer-events-auto"
+          >
+            {/* Animated Noise Grain Backdrop */}
+            <div 
+              className="absolute inset-0 opacity-[0.035] pointer-events-none mix-blend-overlay"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+              }}
+            />
+
+            {/* Soft Center Radial Spotlight */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06)_0%,transparent_65%)] pointer-events-none" />
+
+            {/* Ambient Glow (#7F9CF5 at 10% opacity) */}
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="relative flex items-baseline font-extralight tracking-tighter text-8xl sm:text-9xl lg:text-[14rem]"
+              animate={{
+                scale: phase === 1 ? [1, 1.25, 1] : 0.8,
+                opacity: phase === 1 ? [0.08, 0.14, 0.08] : 0.05,
+              }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute w-[450px] h-[450px] sm:w-[600px] sm:h-[600px] rounded-full bg-[#7F9CF5] blur-[100px] pointer-events-none"
+            />
+
+            {/* AI Core Orbital Rings & Floating Spark Particles */}
+            <div className="absolute flex items-center justify-center pointer-events-none">
+              {/* Outer Orbital Ring */}
+              <motion.div
+                initial={{ scale: 0, opacity: 0, rotateX: 65, rotateY: 15 }}
+                animate={{
+                  scale: phase === 1 ? [1, 1.05, 1] : 1,
+                  opacity: phase === 1 ? 0.3 : 0.15,
+                  rotateZ: 360,
+                }}
+                transition={{
+                  rotateZ: { duration: 12, repeat: Infinity, ease: "linear" },
+                  scale: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                  opacity: { duration: 0.8 },
+                }}
+                className="w-[240px] h-[240px] sm:w-[300px] sm:h-[300px] rounded-full border border-dashed border-[#7F9CF5]/30"
+              />
+
+              {/* Inner Fast Orbital Ring */}
+              <motion.div
+                initial={{ scale: 0, opacity: 0, rotateX: 55, rotateY: -20 }}
+                animate={{
+                  scale: 1,
+                  opacity: phase === 1 ? 0.45 : 0.2,
+                  rotateZ: -360,
+                }}
+                transition={{
+                  rotateZ: { duration: 8, repeat: Infinity, ease: "linear" },
+                  opacity: { duration: 0.8 },
+                }}
+                className="absolute w-[170px] h-[170px] sm:w-[210px] sm:h-[210px] rounded-full border border-white/20"
+              />
+
+              {/* Floating Spark Nodes */}
+              {[0, 72, 144, 216, 288].map((deg, idx) => (
+                <motion.div
+                  key={deg}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{
+                    opacity: phase === 1 ? [0.2, 0.8, 0.2] : 0,
+                    scale: phase === 1 ? [0.8, 1.3, 0.8] : 0,
+                    rotate: deg + (phase === 1 ? 360 : 0),
+                  }}
+                  transition={{
+                    duration: 4 + idx * 0.5,
+                    repeat: Infinity,
+                    ease: "linear",
+                    delay: idx * 0.2,
+                  }}
+                  className="absolute w-[200px] h-[200px] flex items-start justify-center"
+                >
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#7F9CF5] shadow-[0_0_8px_#7F9CF5]" />
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Minimalist Center Percentage Counter (positioned beneath centerpiece orb) */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-40 flex items-baseline font-mono text-4xl sm:text-5xl font-extralight text-white/90 tracking-tighter select-none relative z-10"
             >
               <span>{progress}</span>
-              <span className="text-3xl sm:text-5xl text-white/30 ml-2 font-light">%</span>
+              <span className="text-xl sm:text-2xl text-[#7F9CF5]/80 ml-1 font-light">%</span>
             </motion.div>
-            <p className="mt-4 text-sm sm:text-base tracking-[0.3em] uppercase text-white/50 font-light">
-              Cinematic Experience Loading
-            </p>
-          </div>
 
-          {/* Bottom Progress Bar */}
-          <div className="w-full max-w-7xl flex flex-col gap-4">
-            <div className="h-[2px] w-full bg-white/[0.08] overflow-hidden relative">
-              <motion.div
-                className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-white/40 via-white to-white/40 shadow-[0_0_15px_rgba(255,255,255,0.8)]"
-                initial={{ width: "0%" }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.1, ease: "linear" }}
+            {/* Minimalist Bottom System Bar */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="absolute bottom-8 inset-x-8 max-w-5xl mx-auto flex justify-between items-center text-[10px] sm:text-xs font-mono uppercase tracking-widest text-white/30"
+            >
+              <span>System OS // v2.6</span>
+              <div className="w-32 sm:w-48 h-[1px] bg-white/[0.08] relative overflow-hidden">
+                <motion.div
+                  className="absolute top-0 left-0 bottom-0 bg-[#7F9CF5] shadow-[0_0_10px_#7F9CF5]"
+                  initial={{ width: "0%" }}
+                  animate={{ width: `${progress}%` }}
+                  transition={{ duration: 0.15, ease: "linear" }}
+                />
+              </div>
+              <span>60FPS Hardware GPU</span>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 2. Standalone Centerpiece Orb (Separated so it NEVER fades out during FLIP flight across screen) */}
+      <AnimatePresence>
+        {isLoading && (
+          <div className="fixed inset-0 z-[70] flex items-center justify-center pointer-events-none select-none pb-12">
+            <motion.div
+              layoutId="brand-logo-orb"
+              initial={{ scale: 0, opacity: 0, filter: "blur(20px)" }}
+              animate={{
+                scale: phase === 0 ? [0, 1.15, 1] : [1, 1.05, 1],
+                y: phase === 1 ? [0, -6, 0] : 0,
+                opacity: 1,
+                filter: "blur(0px)",
+                rotate: phase === 1 ? 360 : 0,
+              }}
+              transition={{
+                scale:
+                  phase === 0
+                    ? { duration: 0.9, ease: [0.16, 1, 0.3, 1] }
+                    : { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+                y: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+                opacity: { duration: 0.6, ease: "easeOut" },
+                filter: { duration: 0.8 },
+                rotate:
+                  phase === 1
+                    ? { duration: 2.6, ease: [0.22, 1, 0.36, 1] }
+                    : { duration: 0.8 },
+                layout: { duration: 0.85, ease: [0.16, 1, 0.3, 1] },
+              }}
+              className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full backdrop-blur-xl backdrop-saturate-200 bg-gradient-to-b from-white/[0.22] via-white/[0.06] to-black/60 border border-white/[0.35] ring-2 ring-white/[0.15] shadow-[0_0_50px_rgba(127,156,245,0.25),0_12px_32px_rgba(0,0,0,0.7),inset_0_3px_2px_rgba(255,255,255,0.5),inset_0_-2px_2px_rgba(0,0,0,0.6)] flex items-center justify-center overflow-hidden p-3 pointer-events-auto cursor-pointer"
+            >
+              {/* Top Lens Curvature Highlight */}
+              <div className="absolute top-0 inset-x-2 h-7 bg-gradient-to-b from-white/50 via-white/15 to-transparent rounded-t-full pointer-events-none blur-[0.5px]" />
+              {/* Bottom Rim Reflection */}
+              <div className="absolute bottom-0 inset-x-3 h-3 bg-gradient-to-t from-white/30 to-transparent rounded-b-full pointer-events-none" />
+              
+              <img
+                src="/logo.png"
+                alt="Ashutosh Singare Logo"
+                className="relative z-10 w-full h-full object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]"
               />
-            </div>
-            <div className="flex justify-between items-center text-[10px] sm:text-xs text-white/30 font-mono uppercase tracking-wider">
-              <span>Next.js 14 App Router</span>
-              <span>Sequence 000 — 119</span>
-              <span>HTML5 Canvas Engine</span>
-            </div>
+            </motion.div>
           </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
