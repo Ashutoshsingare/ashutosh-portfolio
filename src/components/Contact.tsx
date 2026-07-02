@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Copy, Check, ArrowUpRight, Globe, Heart, Mail, Send } from "lucide-react";
 import { LayoutContainer } from "./LayoutContainer";
+import { ClassifiedWarning } from "./ClassifiedWarning";
 
 export const Contact: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -63,27 +64,27 @@ export const Contact: React.FC = () => {
 
         {/* Massive Call To Action Header */}
         <div className="my-16 text-center flex flex-col items-center">
-          <span className="text-xs font-mono uppercase tracking-[0.3em] text-white/40 mb-6 block">
-                      <div className="h-6"></div>
+          <div className="text-xs font-mono uppercase tracking-[0.3em] text-white/40 mb-6 block">
+            <div className="h-18 md:h-3"></div>
 
             // Initiation Phase
-          </span>
+          </div>
           <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-extralight tracking-tight text-white leading-[0.95] max-w-6xl mb-12 mx-auto">
             Let&apos;s build the <br />
             <span className="font-normal italic bg-gradient-to-r from-accent via-white to-white/40 bg-clip-text text-transparent">
-              unforgettable.<div className="h-6"></div>
+              unforgettable.<span className="block h-6" aria-hidden="true" />
             </span>
           </h2>
 
-          <p className="text-lg sm:text-2xl font-light text-white/50 max-w-2xl mx-auto mb-12 leading-relaxed">
+          <div className="text-lg sm:text-2xl font-light text-white/50 max-w-2xl mx-auto mb-12 leading-relaxed">
             Have a project in mind, a vision to realize, or looking for pair programming consulting? Message directly below.<div className="h-6"></div>
-          </p>
+          </div>
 
           {/* Quick Action Pills */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-xl mx-auto mb-20">
             <a
               href={`mailto:${emailAddress}`}
-              
+
               className="w-full sm:w-auto px-8 py-5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] text-white font-mono text-sm tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-3 group"
             ><div className="h-6"></div>
               <Mail className="w-4 h-4 text-accent group-hover:scale-110 transition-transform" />
@@ -96,9 +97,9 @@ export const Contact: React.FC = () => {
             >
               <Copy className="w-4 h-4 text-white/60" />
               <span>{copied ? "Copied To Clipboard!" : "Copy Email Address"}</span>
-              
+
             </button>
-            
+
           </div>
 
           {/* Direct Transmission Form Card */}
@@ -108,7 +109,7 @@ export const Contact: React.FC = () => {
             viewport={{ once: true }}
             className="surface-card w-full max-w-2xl mx-auto p-8 sm:p-12 rounded-3xl bg-white/[0.015] border border-white/[0.08] backdrop-blur-2xl text-left relative overflow-hidden mb-16"
           >
-            
+
             <div className="h-6"></div>
             {/* Top Glowing Edge Line */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-accent via-sage to-transparent opacity-60" />
@@ -130,7 +131,7 @@ export const Contact: React.FC = () => {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g. Alan Turing"
+                    placeholder="e.g. Aman singh"
                     className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] focus:border-accent focus:bg-white/[0.06] text-white text-sm font-light outline-none transition-all placeholder:text-white/20"
                   />
                 </div>
@@ -142,7 +143,7 @@ export const Contact: React.FC = () => {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="e.g. alan@turing.ac.uk"
+                    placeholder="e.g. aman@gmail..com"
                     className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] focus:border-accent focus:bg-white/[0.06] text-white text-sm font-light outline-none transition-all placeholder:text-white/20"
                   />
                 </div>
@@ -158,19 +159,18 @@ export const Contact: React.FC = () => {
                   placeholder="Describe your vision, timeline, or engineering requirements..."
                   className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] focus:border-accent focus:bg-white/[0.06] text-white text-sm font-light outline-none transition-all placeholder:text-white/20 resize-none leading-relaxed"
                 />
-                
+
               </div>
 
               <button
                 type="submit"
                 disabled={sending || sent}
-                className={`w-full py-5 mt-2 rounded-full font-mono text-xs sm:text-sm tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-3 shadow-lg ${
-                  sent
+                className={`w-full py-5 mt-2 rounded-full font-mono text-xs sm:text-sm tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-3 shadow-lg ${sent
                     ? "bg-success text-black font-semibold shadow-[0_6px_24px_-6px_rgba(111,154,141,0.5)] cursor-default"
                     : sending
-                    ? "bg-white/10 text-white/50 border border-white/20 cursor-wait"
-                    : "bg-white text-black hover:bg-accent hover:text-white hover:scale-[1.01] shadow-[0_8px_30px_-8px_rgba(0,0,0,0.5)] hover:shadow-[0_10px_36px_-8px_rgba(124,147,179,0.5)]"
-                }`}
+                      ? "bg-white/10 text-white/50 border border-white/20 cursor-wait"
+                      : "bg-white text-black hover:bg-accent hover:text-white hover:scale-[1.01] shadow-[0_8px_30px_-8px_rgba(0,0,0,0.5)] hover:shadow-[0_10px_36px_-8px_rgba(124,147,179,0.5)]"
+                  }`}
               >
                 {sent ? (
                   <>
@@ -212,12 +212,12 @@ export const Contact: React.FC = () => {
           </div>
         </div>
 
+        {/* Classified Developer Warning Easter Egg Notice */}
+        <ClassifiedWarning />
+
         {/* Bottom Credits Footer */}
-        <div className="mt-24 pt-8 border-t border-white/[0.05] flex flex-col items-center justify-center text-center gap-4 text-xs font-mono text-white/30 uppercase tracking-wider">
+        <div className="mt-8 pt-8 border-t border-white/[0.05] flex flex-col items-center justify-center text-center gap-4 text-xs font-mono text-white/30 uppercase tracking-wider">
           <p>© {new Date().getFullYear()} Ashutosh Singare. All Rights Reserved.</p>
-          <p className="flex items-center gap-1.5 justify-center">
-           
-          </p>
           <a href="#" className="hover:text-white transition-colors mt-2 block">Back to Top ↑</a>
         </div>
       </LayoutContainer>

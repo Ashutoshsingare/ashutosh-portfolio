@@ -70,6 +70,17 @@ export const Projects: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  // Desktop drives the pinned scrollytelling; mobile/tablet uses a normal stacked list.
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
   useEffect(() => {
     let animationFrameId: number;
 
@@ -131,22 +142,24 @@ export const Projects: React.FC = () => {
     <section
       id="projects"
       ref={sectionRef}
-      style={{ height: `${(projects.length + 0.5) * 100}vh` }}
+      style={isDesktop ? { height: `${(projects.length + 0.5) * 100}vh` } : undefined}
       className="relative z-20 bg-[#0d0f12] border-t border-white/20 w-full scroll-mt-28 sm:scroll-mt-32"
     >
       {/* Ambient background glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-white/[0.04] to-transparent blur-3xl pointer-events-none" />
 
       {/*
-        STICKY VIEWPORT CONTAINER:
+        DESKTOP — STICKY VIEWPORT CONTAINER:
         Pins precisely underneath the fixed navbar (top-0 with responsive top padding giving optimal breathing room below navbar).
       */}
+      {isDesktop && (
       <div className="sticky top-0 h-screen w-full flex flex-col overflow-hidden pt-28 sm:pt-36 lg:pt-40 pb-6 sm:pb-8">
         <LayoutContainer className="h-full flex flex-col min-h-0">
           
           {/* SECTION ENTRY HEADER */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left w-full shrink-0 relative z-50 mb-4 sm:mb-8">
             <div>
+              <div className="h-18 md:h-21"></div>
               <span className="text-xs font-mono uppercase tracking-[0.3em] text-accent mb-2 block">
                 // FEATURED ARCHIVE
               </span>
@@ -448,6 +461,116 @@ export const Projects: React.FC = () => {
 
         </LayoutContainer>
       </div>
+      )}
+
+      {/* MOBILE / TABLET — normal-flow stacked project cards (no pinning, nothing clipped) */}
+      {!isDesktop && (
+        <div className="w-full pt-28 sm:pt-32 pb-20">
+          <LayoutContainer>
+            {/* Header */}
+            <div className="mb-10">
+              <span className="text-xs font-mono uppercase tracking-[0.3em] text-accent mb-2 block">
+                // FEATURED ARCHIVE
+              </span>
+              <h2 className="text-4xl sm:text-6xl font-extralight tracking-tight text-white leading-none">
+                Works.
+              </h2>
+              <p className="mt-4 text-sm sm:text-base text-white/50 font-light max-w-md leading-relaxed">
+                A selection of projects — architecture, live demos, and source.
+              </p>
+            </div>
+
+            {/* Stacked cards */}
+            <div className="flex flex-col gap-6">
+              {projects.map((project, index) => (
+                <div
+                  key={`m-${project.id}`}
+                  className="rounded-3xl p-6 sm:p-8 bg-white/[0.03] border border-white/[0.12] backdrop-blur-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.7)] flex flex-col"
+                >
+                  {/* Card header */}
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2.5 rounded-2xl bg-white/[0.06] border border-white/[0.12] shadow-inner shrink-0">
+                        {project.icon}
+                      </div>
+                      <span className="font-mono text-[11px] uppercase tracking-widest text-accent font-medium">
+                        {project.category}
+                      </span>
+                    </div>
+                    <span className="font-mono text-xs text-white/40 tracking-widest shrink-0">
+                      0{index + 1} / 0{projects.length}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-2xl sm:text-3xl font-extralight tracking-tight text-white mb-3 leading-tight">
+                    {project.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-white/70 font-light text-sm sm:text-base leading-relaxed mb-5">
+                    {project.description}
+                  </p>
+
+                  {/* Metrics badge */}
+                  <div className="relative py-2.5 px-4 rounded-xl bg-gradient-to-r from-white/[0.08] via-white/[0.03] to-transparent border border-white/[0.16] font-mono text-xs text-white tracking-wider mb-5 w-fit max-w-full shadow-[0_4px_20px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.25)] flex items-center gap-2.5 overflow-hidden">
+                    <div className="absolute top-0 bottom-0 left-0 w-1 bg-accent" />
+                    <Zap className="w-3.5 h-3.5 text-accent shrink-0" />
+                    <span className="font-semibold text-white">{project.metrics}</span>
+                  </div>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap items-center gap-2 mb-6">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1.5 rounded-full text-[11px] font-mono bg-white/[0.04] text-white/80 border border-white/[0.08] tracking-wide"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex flex-wrap items-center gap-3">
+                    <a
+                      href={project.liveUrl || "#contact"}
+                      target={project.liveUrl ? "_blank" : undefined}
+                      rel={project.liveUrl ? "noreferrer" : undefined}
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white hover:bg-[#F5F6FA] text-black font-mono text-[11px] tracking-[0.16em] uppercase font-bold transition-colors"
+                    >
+                      <span>Live Demo</span>
+                      <ArrowUpRight className="w-4 h-4 text-black" />
+                    </a>
+                    <a
+                      href={project.githubUrl || "https://github.com/Ashutoshsingare"}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white/[0.06] hover:bg-white/[0.14] border border-white/[0.14] text-white font-mono text-[11px] tracking-[0.16em] uppercase font-semibold transition-colors"
+                    >
+                      <Code className="w-4 h-4 text-[#7F9CF5]" />
+                      <span>Source</span>
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Archive link */}
+            <div className="mt-10 pt-6 border-t border-white/[0.08] flex justify-center">
+              <a
+                href="https://github.com/Ashutoshsingare"
+                target="_blank"
+                rel="noreferrer"
+                className="text-xs font-mono text-white/40 hover:text-white flex items-center gap-2 transition-colors group"
+              >
+                <span>COMPLETE CODE ARCHIVE</span>
+                <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </a>
+            </div>
+          </LayoutContainer>
+        </div>
+      )}
     </section>
   );
 };

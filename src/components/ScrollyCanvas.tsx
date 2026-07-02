@@ -162,10 +162,10 @@ export const ScrollyCanvas: React.FC = () => {
         {/* Sticky Viewport Container */}
         <div className="sticky top-0 h-screen w-full overflow-hidden z-0 bg-[#0d0f12] relative">
           <motion.div
-            initial={{ scale: 1.15, filter: "blur(20px)", opacity: 0 }}
+            initial={{ scale: 1.08, filter: "blur(8px)", opacity: 0 }}
             animate={
               contextIsLoading
-                ? { scale: 1.15, filter: "blur(20px)", opacity: 0 }
+                ? { scale: 1.08, filter: "blur(8px)", opacity: 0 }
                 : { scale: 1, filter: "blur(0px)", opacity: 1 }
             }
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}

@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Ashutosh Singare — Software Engineer & Creative Developer",
+  title: "Ashutosh Singare | AI Engineer & Full Stack Developer",
   description: "Awwwards-level creative developer specializing in Next.js, Framer Motion, and high-performance Canvas & Scrollytelling interactions.",
   keywords: ["Creative Developer", "Next.js", "Scrollytelling", "Framer Motion", "Portfolio", "HTML5 Canvas", "TypeScript"],
   icons: {

@@ -146,3 +146,324 @@ body {
 .hero-fade {
   background: linear-gradient(to bottom, transparent 45%, var(--bg) 97%);
 }
+
+/* =========================================================
+   SNAKE EASTER EGG — ISOLATED SCOPE (.snake-easter-egg)
+   ========================================================= */
+.snake-easter-egg {
+  position: relative;
+  z-index: 999;
+  max-width: 780px;
+  margin: 110px auto 0 auto;
+  padding: 0 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.snake-easter-egg.hidden {
+  display: none !important;
+}
+
+@keyframes snakeSlideIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.96) translateY(-12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.snake-easter-egg .snake-panel {
+  background: rgba(10, 15, 26, 0.92);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+  animation: snakeSlideIn 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.snake-easter-egg .snake-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.snake-easter-egg .snake-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.snake-easter-egg .status-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: #1d9e75;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #1d9e75;
+  animation: snakePulse 1.5s infinite;
+}
+
+@keyframes snakePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.snake-easter-egg .snake-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.snake-easter-egg .snake-pill {
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.snake-easter-egg .level-pill {
+  border-color: #1d9e75;
+  color: #1d9e75;
+}
+
+.snake-easter-egg .snake-close {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0 0.4rem;
+  transition: color 0.2s;
+}
+
+.snake-easter-egg .snake-close:hover {
+  color: white;
+}
+
+.snake-easter-egg .snake-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .snake-easter-egg .snake-body {
+    flex-direction: row;
+  }
+}
+
+.snake-easter-egg .snake-canvas-wrapper {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #0a0f1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+
+.snake-easter-egg canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.snake-easter-egg .snake-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 15, 26, 0.88);
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  z-index: 10;
+}
+
+.snake-easter-egg .snake-overlay.hidden {
+  display: none !important;
+}
+
+.snake-easter-egg .snake-overlay h3 {
+  font-size: 1.1rem;
+  color: white;
+  margin: 0 0 0.4rem 0;
+}
+
+.snake-easter-egg .snake-overlay p {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 1rem 0;
+}
+
+.snake-easter-egg .snake-overlay-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.snake-easter-egg .snake-btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.snake-easter-egg .snake-btn.next {
+  background: white;
+  color: #0a0f1a;
+}
+
+.snake-easter-egg .snake-btn.next:hover {
+  background: #1d9e75;
+  color: white;
+}
+
+.snake-easter-egg .snake-btn.retry {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.snake-easter-egg .snake-btn.retry:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.snake-easter-egg .snake-btn.hidden {
+  display: none !important;
+}
+
+.snake-easter-egg .snake-sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.snake-easter-egg .snake-stat-box {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.snake-easter-egg .stat-label {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.snake-easter-egg .stat-value {
+  font-size: 1rem;
+  color: white;
+  font-weight: 700;
+}
+
+.snake-easter-egg .stat-value.pb {
+  color: #7f77dd;
+}
+
+.snake-easter-egg .snake-levels-list {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 0.6rem;
+}
+
+.snake-easter-egg .level-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 2px;
+}
+
+.snake-easter-egg .level-item.active {
+  background: rgba(29, 158, 117, 0.15);
+  color: #1d9e75;
+  border-left: 2px solid #1d9e75;
+}
+
+.snake-easter-egg .level-item.complete {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: line-through rgba(255, 255, 255, 0.3);
+}
+
+.snake-easter-egg .level-item .badge {
+  font-size: 0.6rem;
+  opacity: 0.7;
+}
+
+.snake-easter-egg .snake-footer {
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@media (min-width: 640px) {
+  .snake-easter-egg .snake-footer {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.snake-easter-egg .controls-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.snake-easter-egg .key-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 0.65rem;
+}
+
+.snake-click-dots .snake-dot {
+  box-shadow: none;
+}
+.snake-click-dots .snake-dot.lit {
+  background-color: #1d9e75;
+  box-shadow: 0 0 6px #1d9e75;
+}

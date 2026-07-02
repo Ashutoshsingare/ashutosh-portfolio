@@ -122,7 +122,7 @@ export const TechStack: React.FC = () => {
   }, []);
 
   return (
-    <section id="skills" className="relative z-20 bg-[#0d0f12] py-28 md:py-[150px] border-t border-white/20 w-full overflow-hidden">
+    <section id="skills" className="relative z-20 bg-[#0d0f12] pt-28 md:pt-[150px] pb-36 md:pb-[220px] border-t border-white/20 w-full overflow-hidden">
       {/* Deep Ambient Background Illumination */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-accent/[0.05] blur-[190px] pointer-events-none rounded-full" />
 
@@ -137,15 +137,17 @@ export const TechStack: React.FC = () => {
             </div>
             <h2 className="text-4xl sm:text-6xl md:text-7xl font-extralight tracking-tight text-white leading-none">
               Skills.
+               <div className="h-18 md:h-7"></div>
             </h2>
           </div>
           <p className="text-base sm:text-lg text-white/50 font-light max-w-md leading-relaxed">
             A comprehensive matrix of production-grade frameworks, languages, and distributed systems architecture.
+             <div className="h-18 md:h-7"></div>
           </p>
         </div>
 
         {/* Editorial 2×2 grid */}
-        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10 mb-12 sm:mb-16">
           {stackCategories.map((category, idx) => {
             return (
               <div
@@ -159,7 +161,7 @@ export const TechStack: React.FC = () => {
                   transitionDelay: `${idx * 0.1}s`,
                 }}
               >
-                <article className="surface-card group h-full min-h-[380px] flex flex-col rounded-[18px] p-8 border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-white/[0.14] hover:bg-white/[0.035] will-change-transform">
+                <article className="surface-card group h-full min-h-0 sm:min-h-[380px] flex flex-col rounded-[18px] p-6 sm:p-8 pb-10 border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-white/[0.14] hover:bg-white/[0.035] will-change-transform">
                   {/* Top row: category icon + index */}
                   <div className="flex items-center justify-between">
                     <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 bg-accent/10 border border-accent/25 shadow-inner">
@@ -180,22 +182,31 @@ export const TechStack: React.FC = () => {
                     {category.desc}
                   </p>
 
-                  {/* All technology chips displayed without slicing, with compact padding to maintain original card size */}
-                  <div className="mt-6 flex flex-wrap gap-2 sm:gap-2.5">
-                    {category.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="inline-flex items-center justify-center rounded-lg px-3.5 py-2 text-xs leading-none font-mono font-medium tracking-wide bg-accent/[0.08] text-accent-hover border border-accent/20 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:bg-accent/[0.14] hover:border-accent/40 hover:text-white cursor-default select-none"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+                  {/* Skills */}
+<div className="mt-auto pt-8">
+  <div className="flex flex-wrap gap-2 sm:gap-2.5">
+    {category.skills.map((skill) => (
+      <span
+        key={skill}
+        className="inline-flex items-center justify-center rounded-lg px-3.5 py-2 text-xs leading-none font-mono font-medium tracking-wide bg-accent/[0.08] text-accent-hover border border-accent/20 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:bg-accent/[0.14] hover:border-accent/40 hover:text-white cursor-default select-none"
+      >
+        {skill}
+      </span>
+    ))}
+  </div>
+
+  {/* Bottom breathing room */}
+  <div className="h-6" />
+</div>
                 </article>
               </div>
             );
           })}
-        </div>
+                </div>
+
+        {/* Space before next section */}
+        <div className="h-24 md:h-18"></div>
+
       </LayoutContainer>
     </section>
   );

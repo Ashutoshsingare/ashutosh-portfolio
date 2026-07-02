@@ -1,5 +1,6 @@
 import { AppProvider } from "@/components/AppProvider";
 import { Navbar } from "@/components/Navbar";
+import { SnakeEasterEgg } from "@/components/SnakeEasterEgg";
 import { ScrollyCanvas } from "@/components/ScrollyCanvas";
 import { Education } from "@/components/Education";
 import { TechStack } from "@/components/TechStack";
@@ -12,6 +13,7 @@ export default function Home() {
       <AppProvider>
         {/* 1. Hero & 2. Engineering Philosophy */}
         <Navbar />
+        <SnakeEasterEgg />
         <ScrollyCanvas />
       </AppProvider>
 

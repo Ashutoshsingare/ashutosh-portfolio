@@ -56,13 +56,13 @@ export const Education: React.FC = () => {
             <h2 className="text-4xl sm:text-6xl md:text-7xl font-extralight tracking-tight text-white leading-none">
               Education.
             </h2>
-            <div className="h-6"></div>
+            <div className="h-18 md:h-7"></div>
           </div>
-          <p className="text-base sm:text-lg text-white/50 font-light max-w-md leading-relaxed">
+          <div className="text-base sm:text-lg text-white/50 font-light max-w-md leading-relaxed">
             A chronological progression of rigorous academic foundation, mathematical sciences, and data engineering.
-                        <div className="h-6"></div>
+                        <div className="h-18 md:h-7"></div>
 
-          </p>
+          </div>
         </div>
 
         {/* Vertical Spine Timeline */}

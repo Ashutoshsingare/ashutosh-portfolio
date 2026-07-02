@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
-import { Sparkles, FileText, FileCode, Download, X, ArrowUpRight } from "lucide-react";
+import { Sparkles, FileText, FileCode, Download, X, ArrowUpRight, Menu } from "lucide-react";
 import { LayoutContainer } from "./LayoutContainer";
 import { useLoading } from "@/context/LoadingContext";
 
@@ -12,6 +12,7 @@ export const Navbar: React.FC = () => {
   const [spinCount, setSpinCount] = useState(0);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { scrollYProgress } = useScroll();
 
@@ -35,6 +36,7 @@ export const Navbar: React.FC = () => {
     const handleScroll = () => {
       const scrollPos = window.scrollY + window.innerHeight * 0.35;
       setScrolled(window.scrollY > 40);
+      setIsMenuOpen(false);
 
       const contactEl = document.getElementById("contact");
       const worksEl = document.getElementById("works");
@@ -63,12 +65,13 @@ export const Navbar: React.FC = () => {
   return (
     <header className="fixed top-5 sm:top-6 inset-x-0 w-full z-[1000] pointer-events-none">
       <LayoutContainer className="pointer-events-auto">
+        <div className="relative">
         <motion.nav
-          initial={{ opacity: 0, y: -25, scale: 0.96, filter: "blur(12px)" }}
+          initial={{ opacity: 0, y: -25, scale: 0.96 }}
           animate={
             isLoading
-              ? { opacity: 0, y: -25, scale: 0.96, filter: "blur(12px)" }
-              : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }
+              ? { opacity: 0, y: -25, scale: 0.96 }
+              : { opacity: 1, y: 0, scale: 1 }
           }
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
           className={`relative flex items-center justify-between px-6 sm:px-8 rounded-full backdrop-saturate-200 border select-none w-full transition-all duration-500 overflow-hidden ${
@@ -116,6 +119,7 @@ export const Navbar: React.FC = () => {
                   scale: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
                   layout: { duration: 0.85, ease: [0.16, 1, 0.3, 1] },
                 }}
+                style={{ willChange: "transform" }}
                 className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full backdrop-blur-xl backdrop-saturate-200 bg-gradient-to-b from-white/[0.22] via-white/[0.05] to-black/60 border border-white/[0.28] ring-1 ring-white/[0.12] shadow-[0_6px_16px_rgba(0,0,0,0.6),inset_0_2px_1.5px_rgba(255,255,255,0.45),inset_0_-1.5px_1.5px_rgba(0,0,0,0.5)] flex items-center justify-center group-hover:scale-110 group-hover:border-white/45 group-hover:shadow-[0_0_25px_rgba(255,255,255,0.22),inset_0_2px_2px_rgba(255,255,255,0.65)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden p-1.5 cursor-pointer shrink-0"
               >
                 {/* Top Lens Curvature Highlight */}
@@ -221,6 +225,17 @@ export const Navbar: React.FC = () => {
                 <ArrowUpRight className="w-4 h-4 text-[#0B0D11] group-hover:translate-x-[6px] group-hover:-translate-y-[6px] transition-transform duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] shrink-0" />
               </motion.a>
             </div>
+
+            {/* Mobile Menu Toggle (hamburger) — replaces center nav links below lg */}
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
+              className="lg:hidden relative z-10 flex items-center justify-center w-[50px] h-[50px] sm:w-[52px] sm:h-[52px] ml-2 sm:ml-2.5 rounded-full backdrop-blur-[30px] backdrop-saturate-150 bg-gradient-to-b from-white/[0.14] via-white/[0.04] to-black/60 border border-white/[0.18] ring-1 ring-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.65),inset_0_1px_1px_rgba(255,255,255,0.22)] text-white hover:bg-white/[0.1] transition-colors cursor-pointer shrink-0"
+            >
+              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
 
           {/* Optional Page Progress Indicator directly beneath navbar */}
@@ -229,6 +244,57 @@ export const Navbar: React.FC = () => {
             className="absolute bottom-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-[#7F9CF5] to-transparent origin-left rounded-full pointer-events-none opacity-80"
           />
         </motion.nav>
+
+        {/* Mobile Navigation Dropdown Panel (below lg) */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              key="mobile-menu"
+              initial={{ opacity: 0, y: -8, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.98 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:hidden absolute top-full left-0 right-0 mt-3 z-40 origin-top rounded-3xl p-2.5 backdrop-blur-[35px] backdrop-saturate-200 bg-gradient-to-b from-white/[0.12] via-white/[0.04] to-black/70 border border-white/[0.18] ring-1 ring-white/[0.08] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.85),inset_0_1px_1px_rgba(255,255,255,0.2)] pointer-events-auto"
+            >
+              <nav className="flex flex-col">
+                {navItems.map((item) => {
+                  const isActive = activeLink === item.name;
+                  return (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => {
+                        setActiveLink(item.name);
+                        setIsMenuOpen(false);
+                      }}
+                      className={`px-5 py-3.5 rounded-2xl font-mono text-sm uppercase tracking-[0.16em] transition-colors ${
+                        isActive
+                          ? "text-white bg-white/[0.08] font-bold"
+                          : "text-white/70 hover:text-white hover:bg-white/[0.05] font-medium"
+                      }`}
+                    >
+                      {item.name}
+                    </a>
+                  );
+                })}
+
+                {/* Primary CTA inside menu */}
+                <a
+                  href="#contact"
+                  onClick={() => {
+                    setActiveLink("Contact");
+                    setIsMenuOpen(false);
+                  }}
+                  className="mt-2 flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-2xl bg-white hover:bg-[#F5F6FA] text-[#0B0D11] font-mono text-sm font-semibold tracking-[0.12em] uppercase transition-colors"
+                >
+                  <span>Let&apos;s Talk</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        </div>
       </LayoutContainer>
 
       {/* In-Page Fixed Size Resume Modal Viewer */}

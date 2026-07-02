@@ -33,7 +33,7 @@ export const Overlay: React.FC<OverlayProps> = ({ scrollYProgress }) => {
             {/* SECTION 1: HERO (0% SCROLL) - ALIGNED LEFT OF FACE */}
             <motion.div
               style={{ opacity: opacity1, y: y1 }}
-              className="absolute left-0 -translate-x-69 inset-y-0 my-auto flex flex-col justify-center items-start text-left max-w-lg lg:max-w-2xl pr-6"
+              className="absolute left-0 translate-x-0 lg:-translate-x-69 inset-y-0 my-auto flex flex-col justify-center items-start text-left max-w-lg lg:max-w-2xl pr-6"
             >
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -80,7 +80,7 @@ export const Overlay: React.FC<OverlayProps> = ({ scrollYProgress }) => {
             {/* SECTION 2: SCROLL TEXT 1 (30% SCROLL) - ALIGNED RIGHT OF FACE */}
             <motion.div
               style={{ opacity: opacity2, y: y2 }}
-              className="absolute right-0 translate-x-69 inset-y-0 my-auto flex flex-col justify-center items-end text-right max-w-lg lg:max-w-2xl pl-6 ml-auto"
+              className="absolute right-0 translate-x-0 lg:translate-x-69 inset-y-0 my-auto flex flex-col justify-center items-end text-right max-w-lg lg:max-w-2xl pl-6 ml-auto"
             >
               <span className="text-xs font-mono tracking-[0.3em] uppercase text-accent mb-4 block">
                 // 01. ABOUT ME
@@ -100,7 +100,7 @@ export const Overlay: React.FC<OverlayProps> = ({ scrollYProgress }) => {
             {/* SECTION 3: SCROLL TEXT 2 (60% SCROLL) - ALIGNED LEFT OF FACE */}
             <motion.div
               style={{ opacity: opacity3, y: y3 }}
-              className="absolute left-0 -translate-x-69 inset-y-0 my-auto flex flex-col justify-center items-start text-left max-w-lg lg:max-w-2xl pr-6"
+              className="absolute left-0 translate-x-0 lg:-translate-x-69 inset-y-0 my-auto flex flex-col justify-center items-start text-left max-w-lg lg:max-w-2xl pr-6"
             >
                  <span className="text-xs font-mono tracking-[0.3em] uppercase text-accent mb-4 block">
                 // 02. MY PHILOSOPHY
