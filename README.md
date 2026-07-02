@@ -78,6 +78,15 @@ Built specifically for **engineering recruiters**, **creative design agencies**,
 - 🎯 **Responsive Mobile Experience**  
   Fully optimized for mobile devices with touch-friendly interactions and adaptive layouts.
 
+- 🕹️ **Hidden Secret Mode (`snake.exe`)**  
+  An interactive retro Snake arcade game embedded right inside the portfolio! Triggered seamlessly by triple-clicking the top navbar logo. Features 5 distinct progressive difficulty levels (Rookie through Cyber Snake), live speed-scaling, high-score tracking, and custom grid rendering.
+
+- ⚠ **Classified Warning Component**  
+  A sleek, glassmorphic Easter egg notice inspired by Linear and Apple design systems, inviting curious developers into the secret mode.
+
+- 🔍 **Automated SEO Indexing**  
+  Production-ready search engine optimization with dynamic `sitemap.xml` and `robots.txt` ensuring complete web discoverability.
+
 - 🛡️ **Type-Safe Codebase**  
   Full TypeScript coverage protecting components against runtime mutations.
 
@@ -234,6 +243,7 @@ portfolio/
 │   │   └── page.tsx                 # Main landing page component assembly
 │   │
 │   └── components/                  # Reusable UI & animation modules
+│       ├── ClassifiedWarning.tsx    # Premium Linear-style Easter egg warning notice
 │       ├── Contact.tsx              # Email clipboard & commission flow
 │       ├── Education.tsx            # Academic timeline cards (OIST, CBSE)
 │       ├── LayoutContainer.tsx      # Responsive layout wrapper
@@ -242,10 +252,14 @@ portfolio/
 │       ├── Overlay.tsx              # Scroll-driven typography container
 │       ├── Projects.tsx             # Featured project showcase & grid
 │       ├── ScrollyCanvas.tsx        # WebGL particle background canvas
+│       ├── SnakeEasterEgg.tsx       # Interactive 5-level retro Snake game engine
 │       └── TechStack.tsx            # Skill pills categorized by domain
 │
-├── public/                          # Static assets
-│   └── images/                      # Project screenshots & logos
+├── public/                          # Static assets & SEO files
+│   ├── resume/                      # Downloadable resume PDF
+│   ├── sequence/                    # WebGL canvas background frame animation
+│   ├── robots.txt                   # Search engine crawler directives
+│   └── sitemap.xml                  # Site map indexing
 │
 ├── .env.example                     # Environment variables template
 ├── brain.md                         # Project Brain v2 AI Architecture
